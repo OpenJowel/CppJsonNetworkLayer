@@ -14,10 +14,9 @@ SafeQueue::~SafeQueue()
 
 std::queue<Query> SafeQueue::elements(int quantity)
 {
-    lock_guard<mutex> lock(m_mutex);
-
     std::queue<Query> elements;
 
+    lock_guard<mutex> lock(m_mutex);
     if(quantity < 0){
         elements = m_elements;
         _clear();
@@ -27,6 +26,7 @@ std::queue<Query> SafeQueue::elements(int quantity)
     while(!m_elements.empty() && quantity > 0){
         elements.push(m_elements.front());
         m_elements.pop();
+        quantity--;
     }
 
     return elements;
