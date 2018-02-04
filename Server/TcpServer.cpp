@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include <string.h>
 
+#include <json/value.h>
+
+#include "JsonUtils.hpp"
+
 using namespace std;
 
 bool TcpServer::setup(int port)
@@ -41,17 +45,29 @@ void TcpServer::startAccepting()
 
 void TcpServer::acceptTask()
 {
+    JsonUtils jsonUtils;
     while(m_running){
         socklen_t sosize = sizeof(clientAddress);
         int newSocketFd = accept(serverSocketFd, (struct sockaddr*)&clientAddress, &sosize);
 
-        cout << "New client joined !" << endl;
-
+        cout << "Client connection attempt" << endl;
         Client* client = new Client(newSocketFd);
 
-        lock_guard<mutex> lock(m_clientsMutex);
-        m_clients.insert(client);
-        m_clientsMutex.unlock();
+        if(m_clients.size() < CLIENTSMAXQUANTITY){
+            cout << "New client joined !" << endl;
+            m_clientsMutex.lock();
+            m_clients.insert(client);
+            m_clientsMutex.unlock();
+        }
+        else{
+            cout << "Rejected connection" << endl;
+            Json::Value errorMessage;
+            errorMessage["requestType"] = "errorMessage";
+            errorMessage["message"] = "Server is full";
+            sendStringTo(client, jsonUtils.valueToJsonString(errorMessage));
+            client->stop();
+            //delete client;
+        }
     }
 }
 
@@ -59,7 +75,8 @@ queue<Query> TcpServer::collectQueries()
 {
     queue<Query> messages;
 
-    lock_guard<mutex> lock(m_clientsMutex);
+    //lock_guard<mutex> lock(m_clientsMutex);
+    m_clientsMutex.lock();
     for(Client* client: m_clients){
         queue<Query> clientQueries = client->queries(CLIENTPACKETSBYFRAME);
         while(!clientQueries.empty()){
@@ -67,6 +84,7 @@ queue<Query> TcpServer::collectQueries()
             clientQueries.pop();
         }
     }
+    m_clientsMutex.unlock();
 
     return messages;
 }
@@ -75,19 +93,22 @@ void TcpServer::removeDisconnected()
 {
     set<Client*>::iterator it = m_clients.begin();
 
-    lock_guard<mutex> lock(m_clientsMutex);
+    //lock_guard<mutex> lock(m_clientsMutex);
+    m_clientsMutex.lock();
     while(it != m_clients.end()){
         Client* client = *it;
         if(client->hasFinished()){
             cout << "Closing " << client->socketFd() << endl;
-            client->closeSocket();
-            delete client;
+            client->stop();
+            //delete client;
+            client = nullptr;
             it = m_clients.erase(it);
         }
         else{
             it++;
         }
     }
+    m_clientsMutex.unlock();
 }
 
 void TcpServer::sendResponses(std::queue<Response>& responses)

@@ -27,10 +27,10 @@ public:
 
     void start();
     void stop();
-    void closeSocket();
 
 private:
     void receiveTask();
+    void closeSocket();
 
     std::thread m_receiveTask;
     Socket m_socket;
