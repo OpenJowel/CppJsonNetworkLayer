@@ -98,9 +98,8 @@ void TcpServer::removeDisconnected()
     while(it != m_clients.end()){
         Client* client = *it;
         if(client->hasFinished()){
-            cout << "Closing " << client->socketFd() << endl;
             client->stop();
-            //delete client;
+            delete client;
             client = nullptr;
             it = m_clients.erase(it);
         }

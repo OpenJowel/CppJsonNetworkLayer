@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdint>
+#include <unistd.h>
 
 using namespace std;
 using HeaderType = int32_t;
@@ -24,7 +25,8 @@ Socket::Socket(int fd):
 
 Socket::~Socket()
 {
-
+    cout << "Destroying socket" << endl;
+    close(m_fd);
 }
 
 int Socket::fd() const

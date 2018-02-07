@@ -10,13 +10,11 @@
 
 #include "QueryResponseStructs.hpp"
 
-class Client
+class Client : public Socket
 {
 public:
 	Client(int socketFd);
 	~Client();
-
-    int socketFd() const;
 
     // negative quantity = get all
     std::queue<Query> queries(int quantity = -1);
@@ -30,11 +28,7 @@ public:
 
 private:
     void receiveTask();
-    void closeSocket();
-
     std::thread m_receiveTask;
-    Socket m_socket;
-
     SafeQueue m_queries;
 };
 

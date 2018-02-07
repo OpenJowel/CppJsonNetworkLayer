@@ -8,7 +8,7 @@
 using namespace std;
 
 Client::Client(int socketFd):
-    m_socket(socketFd)
+    Socket(socketFd)
 {
     start();
 }
@@ -18,11 +18,6 @@ Client::~Client()
     cout << "Destruction of client" << endl;
 }
 
-int Client::socketFd() const
-{
-    return m_socket.fd();
-}
-
 queue<Query> Client::queries(int quantity)
 {
     return m_queries.elements(quantity);
@@ -30,23 +25,23 @@ queue<Query> Client::queries(int quantity)
 
 bool Client::hasFinished() const
 {
-    return !m_socket.isAlive();
+    return !isAlive();
 }
 
 void Client::receiveTask()
 {
-    cout << "I'm task for socket " << m_socket.fd() << endl;
+    cout << "I'm task for socket " << m_fd << endl;
 
-    while(m_socket.isAlive()){
-        m_queries.push({m_socket.receiveString(), this});
+    while(isAlive()){
+        m_queries.push({receiveString(), this});
     }
 
-    cout << "Finished receive task for " << m_socket.fd() << endl;
+    cout << "Finished receive task for " << m_fd << endl;
 }
 
 void Client::send(std::string& data) const
 {
-    m_socket.sendString(data);
+    sendString(data);
 }
 
 void Client::start()
@@ -58,10 +53,12 @@ void Client::start()
 void Client::stop()
 {
     cout << "Stopping client task" << endl;
-    closeSocket();
+    //closeSocket();
 }
 
+/*
 void Client::closeSocket()
 {
-    close(m_socket.fd());
+    //close(m_socket.fd());
 }
+*/

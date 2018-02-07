@@ -2,23 +2,22 @@
 #include <string>
 #include <sstream>
 
-#include "TCPClient.h"
+#include "TcpClient.hpp"
 #include "JsonUtils.hpp"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-	if(argc >= 2)
-	{
-		TCPClient tcp;
+	if(argc >= 2){
+		TcpClient tcp;
         JsonUtils jsonUtils;
 
-		tcp.setup("127.0.0.1",13337);
+		tcp.setup("127.0.0.1", 13337);
 		int num = atoi(argv[2]);
 		cout << "Num Request:" << num <<endl;
-		for(int i = 0; i < num; i++)
-		{
+        
+		for(int i = 0; i < num; i++){
             ostringstream str1;
             str1 << i;
             string iString = str1.str();
@@ -32,8 +31,7 @@ int main(int argc, char *argv[])
 
 			tcp.Send(query);
 			string rec = tcp.receive();
-			if( rec != "" )
-			{
+			if( rec != "" ){
 				cout << "Server Response:" << rec << endl;
 			}
 			sleep(1);
@@ -41,5 +39,7 @@ int main(int argc, char *argv[])
 		exit(0);
 		return 0;
 	}
-	else cout << "Error: message num-request" << endl;
+	else{
+        cout << "Error: message num-request" << endl;
+    }
 }

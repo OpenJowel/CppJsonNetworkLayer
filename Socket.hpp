@@ -4,7 +4,7 @@
 #include <string>
 
 
-#define MAXPACKETSIZE 4096
+const unsigned MAXPACKETSIZE = 4096;
 
 
 class Socket
@@ -21,7 +21,7 @@ public:
     void sendString(std::string& message) const;
     std::string receiveString();
 
-private:
+protected:
 
     int m_fd;
     mutable bool m_isAlive;

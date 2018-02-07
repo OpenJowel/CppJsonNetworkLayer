@@ -1,10 +1,23 @@
 all: client
 
-client: Socket.hpp Socket.cpp JsonUtils.cpp JsonUtils.hpp
-	g++ -Wall -o client client.cpp TCPClient.cpp Socket.cpp JsonUtils.cpp -std=c++11 -lpthread -ljsoncpp
+client: Socket.o JsonUtils.o TcpClient.o main.o
+	g++ -Wall -o client Socket.o JsonUtils.o TcpClient.o main.o -std=c++11 -lpthread -ljsoncpp
 
 clean:
 	rm -rf client
+	rm -rf *.o
+
+main.o : main.cpp
+	g++ -c main.cpp -o main.o
+
+TcpClient.o : TcpClient.cpp TcpClient.hpp
+	g++ -c TcpClient.cpp -o TcpClient.o
+
+Socket.o : Socket.cpp Socket.hpp
+	g++ -c Socket.cpp -o Socket.o
+
+JsonUtils.o : JsonUtils.cpp JsonUtils.hpp
+	g++ -c JsonUtils.cpp -o JsonUtils.o
 
 Socket.hpp :
 	ln -s ../Socket.hpp Socket.hpp
