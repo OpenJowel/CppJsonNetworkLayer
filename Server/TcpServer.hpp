@@ -1,9 +1,8 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
-#include <cstddef>
+//#include <cstddef>
 #include <set>
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <thread>
 #include <mutex>
@@ -27,7 +26,6 @@ public:
     void startAccepting();
     std::queue<Query> collectQueries();
     void removeDisconnected();
-	void closeSockets();
 
     void sendResponses(std::queue<Response>& responses);
     void terminate();

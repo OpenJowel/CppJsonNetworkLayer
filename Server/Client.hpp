@@ -19,12 +19,9 @@ public:
     // negative quantity = get all
     std::queue<Query> queries(int quantity = -1);
 
-    void send(std::string& data) const;
-
-    bool hasFinished() const;
+    void send(std::string& data);
 
     void start();
-    void stop();
 
 private:
     void receiveTask();

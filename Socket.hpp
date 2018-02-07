@@ -4,7 +4,7 @@
 #include <string>
 
 
-const unsigned MAXPACKETSIZE = 4096;
+const unsigned MAXPACKETSIZE = 1 << 12;
 
 
 class Socket
@@ -18,13 +18,15 @@ public:
     int fd() const;
     bool isAlive() const;
 
-    void sendString(std::string& message) const;
+    void sendString(std::string& message);
     std::string receiveString();
+
+    void kill();
 
 protected:
 
     int m_fd;
-    mutable bool m_isAlive;
+    bool m_isAlive;
 
 };
 

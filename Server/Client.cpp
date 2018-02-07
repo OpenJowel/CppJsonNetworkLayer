@@ -16,16 +16,12 @@ Client::Client(int socketFd):
 Client::~Client()
 {
     cout << "Destruction of client" << endl;
+    //m_receiveTask.KILL();
 }
 
 queue<Query> Client::queries(int quantity)
 {
     return m_queries.elements(quantity);
-}
-
-bool Client::hasFinished() const
-{
-    return !isAlive();
 }
 
 void Client::receiveTask()
@@ -39,7 +35,7 @@ void Client::receiveTask()
     cout << "Finished receive task for " << m_fd << endl;
 }
 
-void Client::send(std::string& data) const
+void Client::send(std::string& data)
 {
     sendString(data);
 }
@@ -50,15 +46,3 @@ void Client::start()
     m_receiveTask.detach();
 }
 
-void Client::stop()
-{
-    cout << "Stopping client task" << endl;
-    //closeSocket();
-}
-
-/*
-void Client::closeSocket()
-{
-    //close(m_socket.fd());
-}
-*/

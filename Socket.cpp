@@ -39,18 +39,18 @@ bool Socket::isAlive() const
     return m_isAlive;
 }
 
-void Socket::sendString(string& message) const
+void Socket::sendString(string& message)
 {
     // Sending header
     HeaderType messageLength = message.size();
     if(send(m_fd, &messageLength, sizeof(HeaderType), MSG_NOSIGNAL) < sizeof(HeaderType)){
-        m_isAlive = false;
+        kill();
         return;
     }
 
     // Sending data
     if(send(m_fd, message.c_str(), messageLength, MSG_NOSIGNAL) < messageLength){
-        m_isAlive = false;
+        kill();
     }
 }
 
@@ -60,24 +60,33 @@ string Socket::receiveString()
 
     // Get header
     HeaderType messageLength = 0;
-    if(0 < recv(m_fd, &messageLength, sizeof(HeaderType), 0) && messageLength <= MAXPACKETSIZE){
+    if(recv(m_fd, &messageLength, sizeof(HeaderType), 0) > 0 && messageLength <= MAXPACKETSIZE){
 
         vector<char> buffer;
         buffer.resize(messageLength);
 
         // Get data
         HeaderType receivedBytes = 0;
-        while(receivedBytes < messageLength){
-            receivedBytes += recv(m_fd, &buffer[0], messageLength - receivedBytes, 0);
+        HeaderType newQuantity = 0;
+
+        do{
+            newQuantity = recv(m_fd, &buffer[0], messageLength - receivedBytes, 0);
+            receivedBytes += newQuantity;
         }
+        while(receivedBytes < messageLength && receivedBytes > 0 && newQuantity > 0);
 
         message = string(buffer.begin(), buffer.end());
 
     }
     else{
-        m_isAlive = false;
+        kill();
     }
 
     return message;
 }
 
+void Socket::kill()
+{
+    cout << "Killing buggy client" << endl;
+    m_isAlive = false;
+}

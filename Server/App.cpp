@@ -31,7 +31,7 @@ void App::initCallbacks(){
 
         Response response;
         response.target = nullptr;
-        response.data = m_jsonUtils.valueToJsonString(responseRoot);
+        response.data = m_jsonTool.valueToJsonString(responseRoot);
 
         m_responses.push(response);
     };
@@ -47,7 +47,7 @@ void App::initCallbacks(){
 
         Response response;
         response.target = client;
-        response.data = m_jsonUtils.valueToJsonString(responseRoot);
+        response.data = m_jsonTool.valueToJsonString(responseRoot);
 
         m_responses.push(response);
     };
@@ -69,14 +69,25 @@ void App::start()
 void App::treatQueries(queue<Query> queries)
 {
     Json::Value queryRoot;
+    string requestType;
 
     while(!queries.empty()){
         Query& query = queries.front();
 
-        queryRoot = m_jsonUtils.jsonStringToValue(query.data);
+        queryRoot = m_jsonTool.jsonStringToValue(query.data);
 
-        if(!queryRoot.empty()){
-            m_callbacks[queryRoot["requestType"].asString()](query.source, queryRoot);
+        if(!queryRoot.empty() && queryRoot.isMember("requestType")){
+            requestType = queryRoot["requestType"].asString();
+
+            if(m_callbacks.find(requestType) != m_callbacks.end()){
+                m_callbacks[queryRoot["requestType"].asString()](query.source, queryRoot);
+            }
+            else{
+                query.source->kill();
+            }
+        }
+        else{
+            query.source->kill();
         }
 
         queries.pop();

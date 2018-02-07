@@ -3,7 +3,7 @@
 #include <sstream>
 
 #include "TcpClient.hpp"
-#include "JsonUtils.hpp"
+#include "JsonTool.hpp"
 
 using namespace std;
 
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
 	if(argc >= 2){
 		TcpClient tcp;
-        JsonUtils jsonUtils;
+        JsonTool jsonTool;
 
 		tcp.setup("127.0.0.1", 13337);
 		int num = atoi(argv[2]);
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
             queryRoot["requestType"] = "privateMessage";
             queryRoot["message"] = string(argv[1]) + " " + iString;
 
-            string query = jsonUtils.valueToJsonString(queryRoot);
+            string query = jsonTool.valueToJsonString(queryRoot);
 
 			tcp.Send(query);
 			string rec = tcp.receive();

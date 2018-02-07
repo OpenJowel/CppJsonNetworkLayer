@@ -1,5 +1,5 @@
-#ifndef JSONUTILS_H
-#define JSONUTILS_H
+#ifndef JSONTOOL_H
+#define JSONTOOL_H
 
 #include <string>
 #include <sstream>
@@ -8,11 +8,11 @@
 #include <json/reader.h>
 #include <json/value.h>
 
-class JsonUtils
+class JsonTool
 {
 public:
-    JsonUtils(std::string indentation = "");
-    ~JsonUtils();
+    JsonTool(std::string indentation = "");
+    ~JsonTool();
 
     std::string valueToJsonString(const Json::Value& value);
     Json::Value jsonStringToValue(const std::string& jsonString);
@@ -25,5 +25,5 @@ private:
     Json::CharReader* m_charReader;
 };
 
-#endif	// JSONUTILS_H
+#endif	// JSONTOOL_H
 

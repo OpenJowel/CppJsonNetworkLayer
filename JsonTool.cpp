@@ -1,11 +1,11 @@
-#include "JsonUtils.hpp"
+#include "JsonTool.hpp"
 
 #include <iostream>
 
 using namespace std;
 using namespace Json;
 
-JsonUtils::JsonUtils(std::string indentation):
+JsonTool::JsonTool(std::string indentation):
     m_writerBuilder(),
     m_streamWriter(nullptr),
     m_charBuilder(),
@@ -17,13 +17,13 @@ JsonUtils::JsonUtils(std::string indentation):
     m_charReader = m_charBuilder.newCharReader();
 }
 
-JsonUtils::~JsonUtils()
+JsonTool::~JsonTool()
 {
     delete m_streamWriter;
     delete m_charReader;
 }
 
-string JsonUtils::valueToJsonString(const Value& value)
+string JsonTool::valueToJsonString(const Value& value)
 {
     std::ostringstream dataStream;
     m_streamWriter->write(value, &dataStream);
@@ -31,7 +31,7 @@ string JsonUtils::valueToJsonString(const Value& value)
     return dataStream.str();
 }
 
-Value JsonUtils::jsonStringToValue(const string& jsonString)
+Value JsonTool::jsonStringToValue(const string& jsonString)
 {
     Json::Value value;
     string errors;

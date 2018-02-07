@@ -3,10 +3,13 @@
 #include <iostream>
 #include <unistd.h>
 #include <string.h>
+#include <netinet/in.h>
 
 #include <json/value.h>
 
-#include "JsonUtils.hpp"
+
+
+#include "JsonTool.hpp"
 
 using namespace std;
 
@@ -45,7 +48,7 @@ void TcpServer::startAccepting()
 
 void TcpServer::acceptTask()
 {
-    JsonUtils jsonUtils;
+    JsonTool jsonTool;
     while(m_running){
         socklen_t sosize = sizeof(clientAddress);
         int newSocketFd = accept(serverSocketFd, (struct sockaddr*)&clientAddress, &sosize);
@@ -64,9 +67,8 @@ void TcpServer::acceptTask()
             Json::Value errorMessage;
             errorMessage["requestType"] = "errorMessage";
             errorMessage["message"] = "Server is full";
-            sendStringTo(client, jsonUtils.valueToJsonString(errorMessage));
-            client->stop();
-            //delete client;
+            sendStringTo(client, jsonTool.valueToJsonString(errorMessage));
+            delete client;
         }
     }
 }
@@ -97,8 +99,7 @@ void TcpServer::removeDisconnected()
     m_clientsMutex.lock();
     while(it != m_clients.end()){
         Client* client = *it;
-        if(client->hasFinished()){
-            client->stop();
+        if(!client->isAlive()){
             delete client;
             client = nullptr;
             it = m_clients.erase(it);
@@ -139,21 +140,18 @@ void TcpServer::sendStringTo(Client* client, string message) const
     client->send(message);
 }
 
-void TcpServer::closeSockets()
-{
-    close(serverSocketFd);
-
-    for(Client* client : m_clients){
-        client->stop();
-    }
-}
-
-
 void TcpServer::terminate()
 {
     m_running = false;
 
-    closeSockets();
+    close(serverSocketFd);
+
+    set<Client*>::iterator it = m_clients.begin();
+    while(it != m_clients.end()){
+        Client* client = *it;
+        delete client;
+        it = m_clients.erase(it);
+    }
 
     cout << "Server finished peacefully" << endl;
 }

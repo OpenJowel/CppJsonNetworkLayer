@@ -1,12 +1,13 @@
 *.o
-Client/JsonUtils.cpp
-Client/JsonUtils.hpp
+Client/JsonTool.cpp
+Client/JsonTool.hpp
 Client/Socket.cpp
 Client/Socket.hpp
 Client/client
-Server/JsonUtils.cpp
-Server/JsonUtils.hpp
+Server/JsonTool.cpp
+Server/JsonTool.hpp
 Server/Socket.cpp
 Server/Socket.hpp
 Server/server
+*.directory
 

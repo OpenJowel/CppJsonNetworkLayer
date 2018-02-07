@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 #include "TcpServer.hpp"
-#include "JsonUtils.hpp"
+#include "JsonTool.hpp"
 #include "QueryResponseStructs.hpp"
 
 class App
@@ -31,7 +31,7 @@ private:
     Callbacks m_callbacks;
     std::queue<Response> m_responses;
     std::string m_allMessages;
-    JsonUtils m_jsonUtils;
+    JsonTool m_jsonTool;
 
 };
 

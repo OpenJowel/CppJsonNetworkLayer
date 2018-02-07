@@ -1,6 +1,8 @@
 #ifndef QUERYRESPONSESTRUCTS_H
 #define QUERYRESPONSESTRUCTS_H
 
+#include <string>
+
 class Client;
 
 struct Query{
