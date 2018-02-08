@@ -24,6 +24,9 @@ SafeQueue.o : SafeQueue.cpp SafeQueue.hpp
 App.o : App.cpp App.hpp
 	g++ -g -c App.cpp -o App.o
 
+Config.o : Config.cpp Config.hpp
+	g++ -g -c Config.cpp -o Config.o
+
 main.o : main.cpp
 	g++ -g -c main.cpp -o main.o
 
@@ -39,6 +42,6 @@ JsonTool.hpp :
 JsonTool.cpp :
 	ln -s ../JsonTool.cpp JsonTool.cpp
 
-server : Socket.hpp Socket.cpp TcpServer.o Socket.o Client.o SafeQueue.o JsonTool.o App.o main.o
-	g++ -g -o server TcpServer.o Socket.o Client.o SafeQueue.o JsonTool.o App.o main.o -std=c++11 -lpthread -ljsoncpp
+server : Socket.hpp Socket.cpp TcpServer.o Socket.o Client.o SafeQueue.o JsonTool.o App.o Config.o main.o
+	g++ -g -o server TcpServer.o Socket.o Client.o SafeQueue.o JsonTool.o App.o Config.o main.o -std=c++11 -lpthread -ljsoncpp
 

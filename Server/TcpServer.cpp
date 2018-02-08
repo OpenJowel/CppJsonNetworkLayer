@@ -8,13 +8,17 @@
 #include <json/value.h>
 
 
-
+#include "Config.hpp"
 #include "JsonTool.hpp"
 
 using namespace std;
 
-bool TcpServer::setup(int port)
+bool TcpServer::setup()
 {
+    Config& config = Config::getInstance();
+    unsigned tcpPort = config.field("tcpPort").asUInt();
+    unsigned maxClientsQuantity = config.field("maxClients").asUInt();
+
     serverSocketFd = socket(AF_INET, SOCK_STREAM, 0);
     if(!serverSocketFd){
         return false;
@@ -23,14 +27,14 @@ bool TcpServer::setup(int port)
     memset(&serverAddress, 0, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);
-    serverAddress.sin_port = htons(port);
+    serverAddress.sin_port = htons(tcpPort);
 
     if(bind(serverSocketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0){
-        cout << "Could not bind to port " << port << endl;
+        cout << "Could not bind to port " << tcpPort << endl;
         return false;
     }
 
-    if(listen(serverSocketFd, CLIENTSMAXQUANTITY) < 0){
+    if(listen(serverSocketFd, maxClientsQuantity) < 0){
         cout << "Could not start listening" << endl;
         return false;
     }
@@ -56,7 +60,7 @@ void TcpServer::acceptTask()
         cout << "Client connection attempt" << endl;
         Client* client = new Client(newSocketFd);
 
-        if(m_clients.size() < CLIENTSMAXQUANTITY){
+        if(m_clients.size() < Config::getInstance().field("maxClients").asUInt()){
             cout << "New client joined !" << endl;
             m_clientsMutex.lock();
             m_clients.insert(client);

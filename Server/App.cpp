@@ -10,7 +10,7 @@ App::App():
     m_tcpServer()
 {
     initCallbacks();
-    m_ready = m_tcpServer.setup(13337);
+    m_ready = m_tcpServer.setup();
 }
 
 App::~App()
@@ -20,7 +20,7 @@ App::~App()
 
 void App::initCallbacks(){
     m_callbacks["publicMessage"] = [this](Client* client, Json::Value& queryRoot){
-        
+
         string message = queryRoot["message"].asString();
         m_allMessages += " " + message;
         cout << "received public message : '" << message << "'" << endl;
@@ -37,10 +37,10 @@ void App::initCallbacks(){
     };
 
     m_callbacks["privateMessage"] = [this](Client* client, Json::Value& queryRoot){
-        
+
         string message = queryRoot["message"].asString();
         cout << "received private message : '" << message << "'" << endl;
-        
+
         Json::Value responseRoot;
         responseRoot["requestType"] = "message";
         responseRoot["message"] = message;

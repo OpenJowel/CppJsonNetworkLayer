@@ -43,12 +43,14 @@ void Socket::sendString(string& message)
 {
     // Sending header
     HeaderType messageLength = message.size();
+    //if(send(m_fd, &messageLength, sizeof(HeaderType), 0) < sizeof(HeaderType)){
     if(send(m_fd, &messageLength, sizeof(HeaderType), MSG_NOSIGNAL) < sizeof(HeaderType)){
         kill();
         return;
     }
 
     // Sending data
+    //if(send(m_fd, message.c_str(), messageLength, 0) < messageLength){
     if(send(m_fd, message.c_str(), messageLength, MSG_NOSIGNAL) < messageLength){
         kill();
     }
@@ -87,6 +89,6 @@ string Socket::receiveString()
 
 void Socket::kill()
 {
-    cout << "Killing buggy client" << endl;
+    cout << "Killing client" << endl;
     m_isAlive = false;
 }

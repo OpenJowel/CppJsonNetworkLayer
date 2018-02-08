@@ -1,6 +1,7 @@
 #include "JsonTool.hpp"
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 using namespace Json;
@@ -23,7 +24,7 @@ JsonTool::~JsonTool()
     delete m_charReader;
 }
 
-string JsonTool::valueToJsonString(const Value& value)
+string JsonTool::valueToJsonString(const Value& value) const
 {
     std::ostringstream dataStream;
     m_streamWriter->write(value, &dataStream);
@@ -31,7 +32,7 @@ string JsonTool::valueToJsonString(const Value& value)
     return dataStream.str();
 }
 
-Value JsonTool::jsonStringToValue(const string& jsonString)
+Value JsonTool::jsonStringToValue(const string& jsonString) const
 {
     Json::Value value;
     string errors;
@@ -39,6 +40,26 @@ Value JsonTool::jsonStringToValue(const string& jsonString)
     if(!m_charReader->parse(jsonString.c_str(), jsonString.c_str() + jsonString.size(), &value, &errors)){
         cout << errors << endl;
     }
+
+    return value;
+}
+
+Value JsonTool::jsonFileToValue(const std::string& filePath) const
+{
+    Json::Value value;
+    string errors;
+
+    ifstream file(filePath);
+    
+    if(file.fail()){
+        
+        return value;
+    }
+
+    string jsonString;
+    jsonString = string(istreambuf_iterator<char>(file), istreambuf_iterator<char>());
+
+    value = jsonStringToValue(jsonString);
 
     return value;
 }

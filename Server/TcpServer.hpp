@@ -12,7 +12,6 @@
 
 #include "QueryResponseStructs.hpp"
 
-const unsigned CLIENTSMAXQUANTITY = 1;
 const unsigned CLIENTPACKETSBYFRAME = 1;
 
 class TcpServer
@@ -22,7 +21,7 @@ public:
     struct sockaddr_in serverAddress;
     struct sockaddr_in clientAddress;
 
-	bool setup(int port);
+	bool setup();
     void startAccepting();
     std::queue<Query> collectQueries();
     void removeDisconnected();

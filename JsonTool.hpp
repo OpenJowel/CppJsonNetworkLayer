@@ -14,8 +14,9 @@ public:
     JsonTool(std::string indentation = "");
     ~JsonTool();
 
-    std::string valueToJsonString(const Json::Value& value);
-    Json::Value jsonStringToValue(const std::string& jsonString);
+    std::string valueToJsonString(const Json::Value& value) const;
+    Json::Value jsonStringToValue(const std::string& jsonString) const;
+    Json::Value jsonFileToValue(const std::string& filePath) const;
 
 private:
     Json::StreamWriterBuilder m_writerBuilder;

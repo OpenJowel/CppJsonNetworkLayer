@@ -16,7 +16,6 @@ Client::Client(int socketFd):
 Client::~Client()
 {
     cout << "Destruction of client" << endl;
-    //m_receiveTask.KILL();
 }
 
 queue<Query> Client::queries(int quantity)
@@ -26,13 +25,14 @@ queue<Query> Client::queries(int quantity)
 
 void Client::receiveTask()
 {
+    int fd = m_fd;
     cout << "I'm task for socket " << m_fd << endl;
 
     while(isAlive()){
         m_queries.push({receiveString(), this});
     }
 
-    cout << "Finished receive task for " << m_fd << endl;
+    cout << "Finished receive task for " << fd << endl;
 }
 
 void Client::send(std::string& data)
