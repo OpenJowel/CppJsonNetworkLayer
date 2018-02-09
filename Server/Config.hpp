@@ -9,7 +9,6 @@
 class Config
 {
 public:
-	Config();
 	~Config();
 
     static Config& getInstance();
@@ -17,6 +16,7 @@ public:
     Json::Value field(const std::string& fieldName) const;
 
 private:
+	Config();
     void initConfig();
 
     static Config* m_singleInstance;

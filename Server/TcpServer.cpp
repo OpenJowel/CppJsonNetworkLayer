@@ -52,7 +52,7 @@ void TcpServer::startAccepting()
 
 void TcpServer::acceptTask()
 {
-    JsonTool jsonTool;
+    JsonTool& jsonTool = JsonTool::getInstance();
     while(m_running){
         socklen_t sosize = sizeof(clientAddress);
         int newSocketFd = accept(serverSocketFd, (struct sockaddr*)&clientAddress, &sosize);

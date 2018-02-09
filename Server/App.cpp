@@ -7,7 +7,8 @@ using namespace std;
 App::App():
     m_ready(false),
     m_running(false),
-    m_tcpServer()
+    m_tcpServer(),
+    m_jsonTool(JsonTool::getInstance())
 {
     initCallbacks();
     m_ready = m_tcpServer.setup();

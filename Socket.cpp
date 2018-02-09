@@ -39,7 +39,7 @@ bool Socket::isAlive() const
     return m_isAlive;
 }
 
-void Socket::sendString(string& message)
+void Socket::sendString(const string& message)
 {
     // Sending header
     HeaderType messageLength = message.size();

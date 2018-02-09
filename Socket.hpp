@@ -18,7 +18,7 @@ public:
     int fd() const;
     bool isAlive() const;
 
-    void sendString(std::string& message);
+    void sendString(const std::string& message);
     std::string receiveString();
 
     void kill();

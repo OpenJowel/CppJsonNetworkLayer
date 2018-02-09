@@ -9,9 +9,9 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+    JsonTool& jsonTool = JsonTool::getInstance();
 	if(argc >= 2){
 		TcpClient tcp;
-        JsonTool jsonTool;
 
 		tcp.setup("127.0.0.1", 13337);
 		int num = atoi(argv[2]);

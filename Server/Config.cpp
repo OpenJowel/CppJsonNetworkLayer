@@ -38,7 +38,7 @@ void Config::initConfig()
 
 bool Config::readConfigFile()
 {
-    JsonTool jsonTool;
+    JsonTool& jsonTool = JsonTool::getInstance();
     Json::Value configRoot = jsonTool.jsonFileToValue("server.conf");
 
     for(const string& propertyName : m_defaultConfig.getMemberNames()){

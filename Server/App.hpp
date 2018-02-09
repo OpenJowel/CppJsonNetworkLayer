@@ -31,7 +31,7 @@ private:
     Callbacks m_callbacks;
     std::queue<Response> m_responses;
     std::string m_allMessages;
-    JsonTool m_jsonTool;
+    JsonTool& m_jsonTool;
 
 };
 
