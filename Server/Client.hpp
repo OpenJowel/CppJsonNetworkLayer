@@ -1,3 +1,7 @@
+/*
+  Client derives from Socket and implements a thread dedicated to the reception
+*/
+
 #ifndef RECEIVETASK_H
 #define RECEIVETASK_H
 
@@ -13,20 +17,26 @@
 class Client : public Socket
 {
 public:
+    // Constructor / Destructor
 	Client(int socketFd);
 	~Client();
 
     // negative quantity = get all
     std::queue<Query> queries(int quantity = -1);
 
-    void send(std::string& data);
-
-    void start();
 
 private:
+    //Methods
+
+    // Starts the reception thread
+    void start();
+
+    // Method called in the thread
     void receiveTask();
+
+    // Attributes
     std::thread m_receiveTask;
-    SafeQueue m_queries;
+    SafeQueue m_safeQueriesQueue;
 };
 
 #endif	// RECEIVETASK_H

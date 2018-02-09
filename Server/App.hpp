@@ -1,3 +1,8 @@
+/*
+  This class is an example of application
+*/
+
+
 #ifndef APP_H
 #define APP_H
 
@@ -13,15 +18,27 @@
 
 class App
 {
+    // Type definitions
     typedef std::function<void(Client* source, Json::Value& queryRoot)> Callback;
     typedef std::unordered_map<std::string, Callback> Callbacks;
 
 public:
+    // Constructor / Destructor
 	App();
 	~App();
+
+    // Methods
+
+    // Initializes the callback functions
     void initCallbacks();
+
+    // Starts the reception thread
     void start();
+
+    // Treats all the queries from the server
     void treatQueries(std::queue<Query> queries);
+
+    // The main program loop
     void mainLoop();
 
 private:

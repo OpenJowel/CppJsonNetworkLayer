@@ -1,3 +1,8 @@
+/*
+  Config allows to use an external configuration file using Json syntax
+  Handles default parameters and discards useless ones.
+*/
+
 #ifndef CONFIG_H
 #define CONFIG_H
 
@@ -11,12 +16,18 @@ class Config
 public:
 	~Config();
 
+    // Singletone getter
     static Config& getInstance();
-    bool readConfigFile();
     Json::Value field(const std::string& fieldName) const;
 
 private:
+    // Constructor
 	Config();
+
+    // Get configuration from external file
+    bool readConfigFile();
+    
+    // Initializes configuration
     void initConfig();
 
     static Config* m_singleInstance;

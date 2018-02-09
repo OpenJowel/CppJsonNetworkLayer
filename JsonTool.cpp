@@ -8,8 +8,7 @@ using namespace Json;
 
 JsonTool* JsonTool::m_singleInstance = nullptr;
 
-JsonTool::JsonTool():
-    m_charBuilder()
+JsonTool::JsonTool()
 {
     StreamWriterBuilder writerBuilder;
 
@@ -22,7 +21,8 @@ JsonTool::JsonTool():
     writerBuilder["indentation"] = "";
     m_writers[None] = writerBuilder.newStreamWriter();
 
-    m_charReader = m_charBuilder.newCharReader();
+    CharReaderBuilder charBuilder;
+    m_charReader = charBuilder.newCharReader();
 }
 
 JsonTool::~JsonTool()
@@ -44,6 +44,16 @@ JsonTool& JsonTool::getInstance()
 
 string JsonTool::valueToJsonString(const Value& value, Indentation indentation) const
 {
+    /*
+    string jsonString = "";
+    
+    std::ostringstream dataStream;
+    if(m_writers.at(indentation)->write(value, &dataStream)){
+        jsonString = dataStream.str();
+    }
+
+    return jsonString;
+    */
     std::ostringstream dataStream;
     m_writers.at(indentation)->write(value, &dataStream);
 

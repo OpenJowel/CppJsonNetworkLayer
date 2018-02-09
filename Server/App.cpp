@@ -61,6 +61,7 @@ void App::start()
         cout << "Could not start application. TCP server is not ready" << endl;
         return;
     }
+
     m_running = true;
     m_tcpServer.startAccepting();
 

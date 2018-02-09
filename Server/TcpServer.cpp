@@ -141,7 +141,7 @@ void TcpServer::broadcastString(string message) const
 
 void TcpServer::sendStringTo(Client* client, string message) const
 {
-    client->send(message);
+    client->sendString(message);
 }
 
 void TcpServer::terminate()

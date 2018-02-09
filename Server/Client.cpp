@@ -20,7 +20,7 @@ Client::~Client()
 
 queue<Query> Client::queries(int quantity)
 {
-    return m_queries.elements(quantity);
+    return m_safeQueriesQueue.queries(quantity);
 }
 
 void Client::receiveTask()
@@ -29,15 +29,10 @@ void Client::receiveTask()
     cout << "I'm task for socket " << m_fd << endl;
 
     while(isAlive()){
-        m_queries.push({receiveString(), this});
+        m_safeQueriesQueue.push({receiveString(), this});
     }
 
     cout << "Finished receive task for " << fd << endl;
-}
-
-void Client::send(std::string& data)
-{
-    sendString(data);
 }
 
 void Client::start()

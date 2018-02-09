@@ -1,3 +1,8 @@
+/*
+  This class implements a concurrent-safe implementation of a queue
+  in order to be accessed by multiple threads
+*/
+
 #ifndef SAFEQUEUE_H
 #define SAFEQUEUE_H
 
@@ -10,20 +15,25 @@
 class SafeQueue
 {
 public:
-
+    // Constructor / Destructor
 	SafeQueue();
 	~SafeQueue();
 
-    // negative quantity = get all
-    std::queue<Query> elements(int quantity = -1);
+    // returns a given quantity of client queries
+    // -1 to get the whole queue
+    std::queue<Query> queries(int quantity = -1);
 
+    // Inserts new query in the queue
     void push(Query);
 
 
 private:
+
+    // Empties the queue
     void _clear(); // Private because not thread-safe !
 
-    std::queue<Query> m_elements;
+    // Attributes
+    std::queue<Query> m_queries;
     mutable std::mutex m_mutex;
 
 };

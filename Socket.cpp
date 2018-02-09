@@ -29,10 +29,12 @@ Socket::~Socket()
     close(m_fd);
 }
 
+/*
 int Socket::fd() const
 {
     return m_fd;
 }
+*/
 
 bool Socket::isAlive() const
 {
