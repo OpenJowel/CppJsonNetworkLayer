@@ -44,17 +44,9 @@ JsonTool& JsonTool::getInstance()
 
 string JsonTool::valueToJsonString(const Value& value, Indentation indentation) const
 {
-    /*
-    string jsonString = "";
-    
     std::ostringstream dataStream;
-    if(m_writers.at(indentation)->write(value, &dataStream)){
-        jsonString = dataStream.str();
-    }
 
-    return jsonString;
-    */
-    std::ostringstream dataStream;
+    // JsonCpp doesn't offer success return value yet
     m_writers.at(indentation)->write(value, &dataStream);
 
     return dataStream.str();
