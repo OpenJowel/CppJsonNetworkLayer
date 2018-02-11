@@ -6,7 +6,6 @@
 #ifndef SAFEQUEUE_H
 #define SAFEQUEUE_H
 
-#include <string>
 #include <queue>
 #include <mutex>
 

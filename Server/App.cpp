@@ -1,6 +1,7 @@
 #include "App.hpp"
 
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -107,6 +108,9 @@ void App::mainLoop()
         m_tcpServer.sendResponses(m_responses);
 
         usleep(100000);
+
     }
+
+    m_tcpServer.terminate();
 }
 

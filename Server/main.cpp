@@ -1,10 +1,6 @@
-#include <iostream>
-#include <thread>
-
 #include "App.hpp"
 
 using namespace std;
-
 
 int main()
 {

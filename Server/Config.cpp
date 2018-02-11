@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+#include <json/reader.h>
+
 #include "JsonTool.hpp"
 
 using namespace std;

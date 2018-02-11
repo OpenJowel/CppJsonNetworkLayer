@@ -7,11 +7,19 @@
 
 #include <json/value.h>
 
-
 #include "Config.hpp"
 #include "JsonTool.hpp"
 
 using namespace std;
+TcpServer::TcpServer()
+{
+    
+}
+
+TcpServer::~TcpServer()
+{
+    
+}
 
 bool TcpServer::setup()
 {

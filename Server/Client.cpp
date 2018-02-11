@@ -1,9 +1,6 @@
 #include "Client.hpp"
 
 #include <iostream>
-#include <unistd.h>
-
-#include "Socket.hpp"
 
 using namespace std;
 

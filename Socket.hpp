@@ -7,9 +7,7 @@
 
 #include <string>
 
-
-const unsigned MAXPACKETSIZE = 1 << 12;
-
+const unsigned MAXPACKETSIZE = 1 << 16;
 
 class Socket
 {

@@ -22,6 +22,9 @@ const unsigned CLIENTPACKETSBYFRAME = 1;
 class TcpServer
 {
 public:
+    // Constructor / Destructor
+    TcpServer();
+    ~TcpServer();
 
     //Methods
 

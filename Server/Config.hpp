@@ -6,9 +6,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <set>
-
-#include <json/reader.h>
 #include <json/value.h>
 
 class Config

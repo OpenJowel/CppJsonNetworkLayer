@@ -6,8 +6,6 @@
 #define JSONTOOL_H
 
 #include <string>
-#include <sstream>
-
 #include <unordered_map>
 
 #include <json/writer.h>
@@ -28,6 +26,7 @@ public:
 
     // Returns the value parsed as a json string
     std::string valueToJsonString(const Json::Value& value, Indentation indent = None) const;
+
     // Returns a Value node from a json string
     Json::Value jsonStringToValue(const std::string& jsonString) const;
 

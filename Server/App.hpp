@@ -1,7 +1,6 @@
 /*
-  This class is an example of application
+  This class is an example of application using the TcpServer
 */
-
 
 #ifndef APP_H
 #define APP_H
@@ -10,7 +9,6 @@
 #include <string>
 #include <unordered_map>
 #include <functional>
-#include <unistd.h>
 
 #include "TcpServer.hpp"
 #include "JsonTool.hpp"
